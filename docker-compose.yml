@@ -1,0 +1,23 @@
+services:
+  lion:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/workspace
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+    tty: true
+    stdin_open: true
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3" 
